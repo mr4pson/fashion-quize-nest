@@ -1,0 +1,6 @@
+export enum QuestionType {
+  INPUT = 'INPUT',
+  TEXT = 'TEXT',
+  SINGLE_OPTION = 'SINGLE_OPTION',
+  MULTIPLE_OPTION = 'MULTIPLE_OPTION'
+}

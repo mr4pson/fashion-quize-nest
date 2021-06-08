@@ -7,7 +7,7 @@ import { BlockService } from './block.service';
 import { ChangeBlockDto } from './change-block.dto';
 
 @ApiBearerAuth()
-@ApiTags('articles')
+@ApiTags('questions')
 @Controller('blocks')
 export class BlockController {
   constructor(
@@ -17,7 +17,7 @@ export class BlockController {
   @ApiOperation({ summary: 'Get all blocks' })
   @ApiResponse({ status: 200, description: 'Return all blocks.'})
   @Get('')
-  getBlocks(): Promise<any[]> {
+  getBlocks(): Promise<Block[]> {
     return this.blockService.findAll();
   }
 

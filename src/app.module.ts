@@ -5,11 +5,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './modules/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { BlockModule } from './modules/block/block.module';
+import { QuestionModule } from './modules/question/question.module';
 
 @Module({
   imports: [
     AuthModule,
     BlockModule,
+    QuestionModule,
     TypeOrmModule.forRoot(),
     ConfigModule.forRoot()
   ],

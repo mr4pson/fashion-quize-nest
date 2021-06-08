@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Question } from '../question/question.entity';
 @Entity()
 export class Block {
   @PrimaryGeneratedColumn()
@@ -9,4 +10,7 @@ export class Block {
 
   @Column()
   color: string;
+
+  @OneToMany(type => Question, question => question.block)
+  questions: Question[];
 }
