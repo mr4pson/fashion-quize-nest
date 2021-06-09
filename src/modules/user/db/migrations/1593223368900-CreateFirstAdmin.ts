@@ -13,7 +13,7 @@ export class CreateFirstAdmin1593223368900 implements MigrationInterface {
 
         const user: User = userRepository.create({
             login: 'admin',
-            password: await bcrypt.hash('secret', 10),
+            passwordHash: await bcrypt.hash('secret', 10),
             name: 'GromMax'
         });
 

@@ -17,7 +17,7 @@ export class AuthService {
   async validateUser(login: string, pass: string): Promise<User | null> {
     const user: User = await this.userRepository.findOne({ where: { login } });
 
-    if (user && await bcrypt.compare(pass, user.password)) {
+    if (user && await bcrypt.compare(pass, user.passwordHash)) {
       const { ...secureUser } = user;
       return secureUser;
     }
@@ -26,9 +26,13 @@ export class AuthService {
   }
 
   async login(user: User) {
-    const payload = { id: user.id };
+    const payload = { id: user.id, roles: user.roles };
     return {
       accessToken: this.jwtService.sign(payload)
     }
+  }
+
+  findById(id: string): Promise<User> {
+    return this.userRepository.findOne(id);
   }
 }
