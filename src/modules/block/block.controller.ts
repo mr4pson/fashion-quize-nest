@@ -1,7 +1,10 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
+import { HasRoles } from '../auth/guard/has-roles.decorator';
 import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
+import { RolesGuard } from '../auth/guard/roles.guard';
+import { RoleType } from '../shared/enum/role-type.enum';
 import { Block } from './block.entity';
 import { BlockService } from './block.service';
 import { ChangeBlockDto } from './change-block.dto';
@@ -32,7 +35,8 @@ export class BlockController {
   @ApiResponse({ status: 201, description: 'The block has been successfully created.'})
   @ApiResponse({ status: 401, description: 'Unauthorized.' })
   @Post('')
-  @UseGuards(JwtAuthGuard)
+  @HasRoles(RoleType.ADMIN)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   createBlock(@Body() block: ChangeBlockDto): Promise<Block> {
     return this.blockService.create(block);
   }
@@ -41,7 +45,8 @@ export class BlockController {
   @ApiResponse({ status: 201, description: 'The block has been successfully updated.'})
   @ApiResponse({ status: 401, description: 'Unauthorized.' })
   @Put(':id')
-  @UseGuards(JwtAuthGuard)
+  @HasRoles(RoleType.ADMIN)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   updateBlock(
     @Param('id') id: number,
     @Body() block: ChangeBlockDto
@@ -53,6 +58,8 @@ export class BlockController {
   @ApiResponse({ status: 201, description: 'The block has been successfully removed.'})
   @ApiResponse({ status: 401, description: 'Unauthorized.' })
   @Delete(':id')
+  @HasRoles(RoleType.ADMIN)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   deleteBlock(@Param('id') id: number): Promise<DeleteResult> {
     return this.blockService.delete(id);
   }
