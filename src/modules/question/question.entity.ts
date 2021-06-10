@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { Block } from '../block/block.entity';
-import { QuestionType } from './types';
+import { QuestionType, QuizeTypes } from './types';
 @Entity()
 export class Question {
   @PrimaryGeneratedColumn()
@@ -17,6 +17,9 @@ export class Question {
 
   @Column()
   options: string;
+
+  @Column()
+  quizeType: QuizeTypes;
 
   @ManyToOne(type => Block, block => block.questions)
   block: Block;

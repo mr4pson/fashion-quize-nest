@@ -3,6 +3,7 @@ import { Connection, DeleteResult, Repository } from 'typeorm';
 import { Block } from '../block/block.entity';
 import { ChangeQuestionDto } from './change-question.dto';
 import { Question } from './question.entity';
+import { QuizeTypes } from './types';
 
 @Injectable()
 export class QuestionService {
@@ -16,11 +17,15 @@ export class QuestionService {
   }
 
   async findAll(): Promise<Question[]> {
-    return this.questionRepository.find({relations : ['block']});
+    return this.questionRepository.find({ relations: ['block'] });
+  }
+
+  async findByQuizeType(quizeType: QuizeTypes) {
+    return this.questionRepository.find({ relations: ['block'], where: { quizeType: quizeType } });
   }
 
   async findById(id: number): Promise<Question> {
-    return this.questionRepository.findOne(id, {relations : ['block']});
+    return this.questionRepository.findOne(id, { relations: ['block'] });
   }
 
   async create(questionData: ChangeQuestionDto): Promise<Question> {
@@ -45,7 +50,7 @@ export class QuestionService {
     question.type = questionData.type;
     question.options = questionData.options;
     question.block = block;
-  
+
     return this.questionRepository.save(question);
   }
 
