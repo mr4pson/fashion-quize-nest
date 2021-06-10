@@ -36,6 +36,7 @@ export class QuestionService {
     question.image = questionData.image;
     question.type = questionData.type;
     question.options = questionData.options;
+    question.quizeType = questionData.quizeType;
     question.block = block;
 
     return this.questionRepository.save(question);
