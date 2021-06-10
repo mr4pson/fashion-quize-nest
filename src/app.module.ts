@@ -7,6 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 import { BlockModule } from './modules/block/block.module';
 import { QuestionModule } from './modules/question/question.module';
 import { AnswerModule } from './modules/answer/answer.module';
+import { AttachmentModule } from './modules/attachment/attachment.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { AnswerModule } from './modules/answer/answer.module';
     BlockModule,
     QuestionModule,
     AnswerModule,
+    AttachmentModule,
     TypeOrmModule.forRoot(),
     ConfigModule.forRoot()
   ],

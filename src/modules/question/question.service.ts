@@ -16,7 +16,7 @@ export class QuestionService {
   }
 
   async findAll(): Promise<Question[]> {
-    return this.questionRepository.find();
+    return this.questionRepository.find({relations : ['block']});
   }
 
   async findById(id: number): Promise<Question> {
