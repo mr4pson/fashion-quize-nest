@@ -8,6 +8,7 @@ import { RoleType } from "../shared/enum/role-type.enum";
 import { ChangeQuestionDto } from "./change-question.dto";
 import { Question } from "./question.entity";
 import { QuestionService } from "./question.service";
+import { QuizeTypes } from "./types";
 
 @ApiBearerAuth()
 @ApiTags('questions')
@@ -22,6 +23,13 @@ export class QuestionController {
   @Get('')
   getQuestions(): Promise<Question[]> {
     return this.questionService.findAll();
+  }
+
+  @ApiOperation({ summary: 'Get questions by quize type' })
+  @ApiResponse({ status: 200, description: 'Return questions by quize type.'})
+  @Get('byQuizeType/:quizeType')
+  getQuestionsByQyizeType(@Param('quizeType') quizeType: QuizeTypes): Promise<Question[]> {
+    return this.questionService.findByQuizeType(quizeType);
   }
 
   @ApiOperation({ summary: 'Get question by id' })
