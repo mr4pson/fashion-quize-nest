@@ -34,6 +34,7 @@ export class AbstractAttachmentService {
         mimetype,
         size,
         true,
+        ''
       );
 
       // Collect all attachments
