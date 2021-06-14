@@ -34,6 +34,7 @@ export class QuestionService {
     const question = new Question();
     question.description = questionData.description;
     question.image = questionData.image;
+    question.image = questionData.image ? questionData.image : '';
     question.type = questionData.type;
     question.options = questionData.options;
     question.quizeType = questionData.quizeType;
@@ -47,7 +48,7 @@ export class QuestionService {
     const block = await this.blockRepository.findOne(questionData.block);
 
     question.description = questionData.description;
-    question.image = questionData.image;
+    question.image = questionData.image ? questionData.image : '';
     question.type = questionData.type;
     question.options = questionData.options;
     question.block = block;
