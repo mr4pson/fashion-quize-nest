@@ -8,16 +8,8 @@ export class ChangeQuestionDto {
     type: String,
     required: true,
   })
-  readonly title: string;
-
-  @IsNotEmpty()
-  @ApiProperty({
-    type: String,
-    required: true,
-  })
   readonly description: string;
 
-  @IsNotEmpty()
   @ApiProperty({
     type: String,
     required: true,
@@ -50,5 +42,5 @@ export class ChangeQuestionDto {
     type: String,
     required: true,
   })
-  readonly blockId: string;
+  readonly block: string;
 }
