@@ -29,7 +29,7 @@ export class QuestionService {
   }
 
   async create(questionData: ChangeQuestionDto): Promise<Question> {
-    const block = await this.blockRepository.findOne(questionData.blockId);
+    const block = await this.blockRepository.findOne(questionData.block);
 
     const question = new Question();
     question.description = questionData.description;
@@ -44,7 +44,7 @@ export class QuestionService {
 
   async update(id: number, questionData: ChangeQuestionDto): Promise<Question> {
     const question = await this.questionRepository.findOne(id);
-    const block = await this.blockRepository.findOne(questionData.blockId);
+    const block = await this.blockRepository.findOne(questionData.block);
 
     question.description = questionData.description;
     question.image = questionData.image;
