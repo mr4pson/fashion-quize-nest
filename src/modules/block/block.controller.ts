@@ -10,7 +10,7 @@ import { BlockService } from './block.service';
 import { ChangeBlockDto } from './change-block.dto';
 
 @ApiBearerAuth()
-@ApiTags('questions')
+@ApiTags('blocks')
 @Controller('blocks')
 export class BlockController {
   constructor(
@@ -24,8 +24,8 @@ export class BlockController {
     return this.blockService.findAll();
   }
 
-  @ApiOperation({ summary: 'Get article by id' })
-  @ApiResponse({ status: 200, description: 'Return article by id.'})
+  @ApiOperation({ summary: 'Get block by id' })
+  @ApiResponse({ status: 200, description: 'Return block by id.'})
   @Get(':id')
   getBlockById(@Param('id') id: number): Promise<Block> {
     return this.blockService.findById(id);
