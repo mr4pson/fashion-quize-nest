@@ -57,10 +57,10 @@ export class AuthController {
     throw new NotFoundException();
   }
   
-  @Get('reset-password-confirmation')
-  async resetPasswordConfirmation(@Query() query) {
+  @Post('reset-password-confirmation')
+  async resetPasswordConfirmation(@Body() data: any) {
 
-    const changePasswordRequest = await this.changePasswordRequestService.findByToken(query.token);
+    const changePasswordRequest = await this.changePasswordRequestService.findByToken(data.token);
 
     if (changePasswordRequest) {
       return await this.changePasswordRequestService.executeRequest(changePasswordRequest);

@@ -21,7 +21,7 @@ import { join } from 'path';
         },
       },
       defaults: {
-        from: '"No Reply" <noreply@example.com>',
+        from: 'noreply@example.com',
       },
       template: {
         dir: join(__dirname, 'templates'),
