@@ -1,5 +1,6 @@
 import { Answer } from 'src/modules/answer/answer.entity';
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { ChangePasswordRequest } from '../../auth/change-password-request.entity';
 
 @Entity()
 export class User {
@@ -26,4 +27,7 @@ export class User {
 
   @OneToMany(type => Answer, answer => answer.user)
   answers: Answer[];
+
+  @OneToMany(type => ChangePasswordRequest, request => request.user)
+  changePasswordRequests?: ChangePasswordRequest[];
 }

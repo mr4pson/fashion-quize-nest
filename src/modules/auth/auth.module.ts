@@ -7,6 +7,8 @@ import { AuthController } from './auth.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './service/jwt.strategy';
+import { ChangePasswordRequestService } from './service/change-password-request.service';
+import { MailModule } from '../mail/mail.module';
 
 @Module({
   imports: [
@@ -20,9 +22,15 @@ import { JwtStrategy } from './service/jwt.strategy';
         signOptions: { expiresIn: configService.get<string>('JWT_EXPIRES_IN') }
       }),
       inject: [ConfigService]
-    })
+    }),
+    MailModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JwtStrategy]
+  providers: [
+    AuthService,
+    LocalStrategy,
+    JwtStrategy,
+    ChangePasswordRequestService,
+  ]
 })
 export class AuthModule {}
