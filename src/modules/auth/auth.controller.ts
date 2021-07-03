@@ -1,15 +1,19 @@
-import { Controller, Request, Post, UseGuards, Get } from '@nestjs/common';
-import { AuthService } from './service/auth.service';
+import { Body, Controller, Get, NotFoundException, Post, Request, UseGuards, Query } from '@nestjs/common';
 import { Connection, Repository } from 'typeorm';
 import { User } from '../user/model/user.entity';
 import { JwtAuthGuard } from './guard/jwt-auth.guard';
 import { LocalAuthGuard } from './guard/local-auth.guard';
+import { AuthService } from './service/auth.service';
+import { MailService } from '../mail/mail.service';
+import { ChangePasswordRequestService } from './service/change-password-request.service';
 
 @Controller('auth')
 export class AuthController {
   private userRepository: Repository<User>;
   constructor(
     private authService: AuthService,
+    private mailService: MailService,
+    private changePasswordRequestService: ChangePasswordRequestService,
     private connection: Connection
   ) {
     this.userRepository = this.connection.getRepository(User);
@@ -40,5 +44,27 @@ export class AuthController {
   async refresh(@Request() req) {
     const user = await this.userRepository.findOne(req.user.id);
     return this.authService.login(user);
+  }
+
+  @Post('reset-password')
+  async resetPassword(@Body() data: any) {
+    const user = await this.userRepository.findOne({ where: { login: data.login } });
+
+    if (user) {
+      const changePasswordRequest = await this.changePasswordRequestService.create(user);
+      return this.mailService.sendResetPasswordConfirmation(user, changePasswordRequest.token);
+    }
+    throw new NotFoundException();
+  }
+  
+  @Get('reset-password-confirmation')
+  async resetPasswordConfirmation(@Query() query) {
+
+    const changePasswordRequest = await this.changePasswordRequestService.findByToken(query.token);
+
+    if (changePasswordRequest) {
+      return await this.changePasswordRequestService.executeRequest(changePasswordRequest);
+    }
+    throw new NotFoundException();
   }
 }

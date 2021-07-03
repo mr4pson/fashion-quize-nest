@@ -30,7 +30,7 @@ export class StylistService {
   async create(stylistDto: ChangeStylistDto): Promise<User> {
     const stylist: User = {
       ...stylistDto,
-      passwordHash: await bcrypt.hash(generateRandomString(6), 10),
+      passwordHash: await bcrypt.hash(generateRandomString(8), 10),
       createdAt: new Date(),
       updatedAt: new Date(),
       answers: [],
