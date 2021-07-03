@@ -8,6 +8,7 @@ import { BlockModule } from './modules/block/block.module';
 import { QuestionModule } from './modules/question/question.module';
 import { AnswerModule } from './modules/answer/answer.module';
 import { AttachmentModule } from './modules/attachment/attachment.module';
+import { StylistModule } from './modules/stylist/stylist.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { AttachmentModule } from './modules/attachment/attachment.module';
     QuestionModule,
     AnswerModule,
     AttachmentModule,
+    StylistModule,
     TypeOrmModule.forRoot(),
     ConfigModule.forRoot()
   ],
