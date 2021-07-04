@@ -21,12 +21,25 @@ export class MailService {
     });
   }
 
-  async resetPasswordSuccessfull(user: User, password: string) {
+  async resetPasswordSuccessful(user: User, password: string) {
     await this.mailerService.sendMail({
       to: user.login,
       // from: '"Support Team" <support@example.com>', // override default from
       subject: 'Eyelish.ru. Успешное восстановление пароля.',
-      template: './successfull-reset-password', // `.hbs` extension is appended automatically
+      template: './successful-reset-password', // `.hbs` extension is appended automatically
+      context: { // ✏️ filling curly brackets with content
+        name: user.name,
+        password,
+      },
+    });
+  }
+
+  async stylistRegistrationSuccessful(user: User, password: string) {
+    await this.mailerService.sendMail({
+      to: user.login,
+      // from: '"Support Team" <support@example.com>', // override default from
+      subject: 'Eyelish.ru. Успешная регистрация стилиста.',
+      template: './successful-stylist-registration', // `.hbs` extension is appended automatically
       context: { // ✏️ filling curly brackets with content
         name: user.name,
         password,
