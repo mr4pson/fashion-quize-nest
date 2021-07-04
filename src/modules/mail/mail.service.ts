@@ -7,7 +7,7 @@ export class MailService {
   constructor(private mailerService: MailerService) {}
 
   async sendResetPasswordConfirmation(user: User, token: string) {
-    const url = `http://localhost:3100/auth/reset-password-confirmation?token=${token}`;
+    const url = `https://eyelish.ru/reset-password?token=${token}`;
 
     await this.mailerService.sendMail({
       to: user.login,
