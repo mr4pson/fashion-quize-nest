@@ -47,7 +47,7 @@ export class AuthController {
   }
 
   @Post('reset-password')
-  async resetPassword(@Body() data: any) {
+  async resetPassword(@Body() data: { login: string }) {
     const user = await this.userRepository.findOne({ where: { login: data.login } });
 
     if (user) {
@@ -58,7 +58,7 @@ export class AuthController {
   }
   
   @Post('reset-password-confirmation')
-  async resetPasswordConfirmation(@Body() data: any) {
+  async resetPasswordConfirmation(@Body() data: { token: string }) {
 
     const changePasswordRequest = await this.changePasswordRequestService.findByToken(data.token);
 

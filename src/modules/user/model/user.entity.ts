@@ -28,6 +28,6 @@ export class User {
   @OneToMany(type => Answer, answer => answer.user)
   answers: Answer[];
 
-  @OneToMany(type => ChangePasswordRequest, request => request.user)
+  @OneToMany(type => ChangePasswordRequest, request => request.user, { onDelete: "CASCADE", cascade: true })
   changePasswordRequests?: ChangePasswordRequest[];
 }

@@ -19,6 +19,6 @@ export class ChangePasswordRequest {
   @Column()
   updatedAt: Date;
 
-  @ManyToOne(type => User, user => user.changePasswordRequests)
+  @ManyToOne(type => User, user => user.changePasswordRequests, { onDelete: "CASCADE" })
   user: User;
 }
