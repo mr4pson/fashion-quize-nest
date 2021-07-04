@@ -50,7 +50,7 @@ export class ChangePasswordRequestService {
     const password = generateRandomString(8);
     user.passwordHash = await bcrypt.hash(password, 10);
 
-    await this.mailService.resetPasswordSuccessfull(user, password);
+    await this.mailService.resetPasswordSuccessful(user, password);
 
     await this.userRepository.save(user);
 

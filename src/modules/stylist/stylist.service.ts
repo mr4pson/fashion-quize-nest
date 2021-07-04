@@ -5,12 +5,14 @@ import { ChangeStylistDto } from './change-stylist.dto';
 import * as bcrypt from 'bcrypt';
 import { RoleType } from '../shared/enum/role-type.enum';
 import { generateRandomString } from '../shared/utils/generate-random-string.utils';
+import { MailService } from '../mail/mail.service'
 
 @Injectable()
 export class StylistService {
   private userRepository: Repository<User>;
   constructor(
-    private connection: Connection
+    private connection: Connection,
+    private mailService: MailService,
   ) {
     this.userRepository = this.connection.getRepository(User);
   }
@@ -28,16 +30,18 @@ export class StylistService {
   }
 
   async create(stylistDto: ChangeStylistDto): Promise<User> {
+    const password = generateRandomString(8);
+
     const stylist: User = {
       ...stylistDto,
-      passwordHash: await bcrypt.hash(generateRandomString(8), 10),
+      passwordHash: await bcrypt.hash(password, 10),
       createdAt: new Date(),
       updatedAt: new Date(),
       answers: [],
       roles: JSON.stringify([RoleType.STYLIST]),
     }
 
-    // TODO send email to stylist user
+    this.mailService.stylistRegistrationSuccessful(stylist, password);
 
     return this.userRepository.save(stylist);
   }

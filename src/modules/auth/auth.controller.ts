@@ -1,4 +1,4 @@
-import { Body, Controller, Get, NotFoundException, Post, Request, UseGuards, Query } from '@nestjs/common';
+import { Body, Controller, Get, NotFoundException, Post, Request, UseGuards } from '@nestjs/common';
 import { Connection, Repository } from 'typeorm';
 import { User } from '../user/model/user.entity';
 import { JwtAuthGuard } from './guard/jwt-auth.guard';
