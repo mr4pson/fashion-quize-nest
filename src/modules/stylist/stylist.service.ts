@@ -45,7 +45,7 @@ export class StylistService {
       roles: JSON.stringify([RoleType.STYLIST]),
     }
 
-    this.mailService.stylistRegistrationSuccessful(stylist, password);
+    await this.mailService.stylistRegistrationSuccessful(stylist, password);
 
     return this.userRepository.save(stylist);
   }
