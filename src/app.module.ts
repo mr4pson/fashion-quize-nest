@@ -10,6 +10,7 @@ import { BlockModule } from './modules/block/block.module';
 import { MailModule } from './modules/mail/mail.module';
 import { QuestionModule } from './modules/question/question.module';
 import { StylistModule } from './modules/stylist/stylist.module';
+import { TaskModule } from './modules/task/task.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { StylistModule } from './modules/stylist/stylist.module';
     AttachmentModule,
     StylistModule,
     MailModule,
+    TaskModule,
     TypeOrmModule.forRoot(),
     ConfigModule.forRoot()
   ],

@@ -1,0 +1,6 @@
+export enum TaskTypes {
+  WEDDING = 'WEDDING',
+  BIRTHDAY = 'BIRTHDAY',
+  GRADUATING = 'GRADUATING',
+  CORPORATE = 'CORPORATE',
+}
