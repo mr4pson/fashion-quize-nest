@@ -8,20 +8,21 @@ import { join } from 'path';
   imports: [
     MailerModule.forRoot({
       transport: {
-        host: 'smtp.gmail.com',
+        pool: true,
+        host: 'mail.eyelish.ru',
         secure: false,
         tls: {
           rejectUnauthorized: false
         },
-        requireTLS: true,
+        secureConnection: false,
         port: 587,
         auth: {
-          user: 'mrapson001@gmail.com',
-          pass: 'Cifracom4',
+          user: 'user1',
+          pass: 'salesman',
         },
       },
       defaults: {
-        from: 'noreply@example.com',
+        from: 'noreply@eyelish.ru',
       },
       template: {
         dir: join(__dirname, 'templates'),
