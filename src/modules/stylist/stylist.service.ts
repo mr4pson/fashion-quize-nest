@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { Connection, DeleteResult, Repository } from 'typeorm';
+import { ConflictException, Injectable } from '@nestjs/common';
+import { Connection, DeleteResult, Not, Repository } from 'typeorm';
 import { User } from '../user/model/user.entity';
 import { ChangeStylistDto } from './change-stylist.dto';
 import * as bcrypt from 'bcrypt';
@@ -21,7 +21,7 @@ export class StylistService {
     return this.userRepository
       .createQueryBuilder("user")
       .select(['user.id', 'user.name', 'user.login', 'user.createdAt', 'user.updatedAt'])
-      .where("user.roles like :roles", { roles:`%STYLIST%` })
+      .where("user.roles like :roles", { roles: `%STYLIST%` })
       .getMany();
   }
 
@@ -30,6 +30,10 @@ export class StylistService {
   }
 
   async create(stylistDto: ChangeStylistDto): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { login: stylistDto.login } });
+    if (user) {
+      throw new ConflictException('User already exist');
+    }
     const password = generateRandomString(8);
 
     const stylist: User = {
@@ -47,6 +51,11 @@ export class StylistService {
   }
 
   async update(id: number, stylist: ChangeStylistDto): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { login: stylist.login, id: Not(id) } });
+    if (user) {
+      throw new ConflictException('User already exist');
+    }
+
     const toUpdate = await this.userRepository.findOne(id);
     return this.userRepository.save({
       ...toUpdate,
