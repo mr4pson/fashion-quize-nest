@@ -46,7 +46,6 @@ export class QuestionController {
   @HasRoles(RoleType.ADMIN)
   @UseGuards(JwtAuthGuard, RolesGuard)
   createQuestion(@Body() question: ChangeQuestionDto): Promise<Question> {
-    console.log(question);
     return this.questionService.create(question);
   }
 
