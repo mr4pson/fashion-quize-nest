@@ -5,6 +5,7 @@ import { HasRoles } from '../auth/guard/has-roles.decorator';
 import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 import { RolesGuard } from '../auth/guard/roles.guard';
 import { RoleType } from '../shared/enum/role-type.enum';
+import { User } from '../user/model/user.entity';
 import { ChangeTaskDto } from './change-task.dto';
 import { Task } from './task.entity';
 import { TaskService } from './task.service';
@@ -27,6 +28,29 @@ export class TaskController {
     return this.taskService.findAll();
   }
 
+  @ApiOperation({ summary: 'Get stylist tasks' })
+  @ApiResponse({ status: 200, description: 'Return all tasks.'})
+  @Get('/stylist-tasks')
+  @HasRoles(RoleType.STYLIST, RoleType.ADMIN)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  getStylistTasks(@Request() req): Promise<Task[]> {
+    return this.taskService.findStylistTasks(req.user.id);
+  }
+
+  @ApiOperation({ summary: 'Get user tasks' })
+  @ApiResponse({ status: 200, description: 'Return all tasks.'})
+  @Get('/stylist-tasks')
+  @HasRoles(RoleType.STYLIST, RoleType.ADMIN)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  getUserTasks(@Request() req): Promise<Task[]> {
+    return this.taskService.findUserTasks(req.user.id);
+  }
+
+  @Get('get-most-free-stylist')
+  getMostFreeStylist(): Promise<User> {
+    return this.taskService.getMostFreeStylist();
+  }
+
   @ApiOperation({ summary: 'Get task by id' })
   @ApiResponse({ status: 200, description: 'Return task by id.'})
   @HasRoles(RoleType.USER, RoleType.STYLIST, RoleType.ADMIN)
@@ -35,8 +59,7 @@ export class TaskController {
   getTaskId(@Param('id') id: number): Promise<Task> {
     return this.taskService.findById(id);
   }
-
-  // TODO add 2 get methods for stylist and user
+  
 
   @ApiOperation({ summary: 'Create task' })
   @ApiResponse({ status: 201, description: 'The task has been successfully created.'})
