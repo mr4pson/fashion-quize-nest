@@ -74,7 +74,7 @@ export class TaskController {
   @ApiOperation({ summary: 'Update task' })
   @ApiResponse({ status: 201, description: 'The task has been successfully updated.'})
   @ApiResponse({ status: 401, description: 'Unauthorized.' })
-  @HasRoles(RoleType.USER)
+  @HasRoles(RoleType.USER, RoleType.STYLIST)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Put(':id')
   updateTask(@Param('id') id: number, @Body() task: ChangeTaskDto): Promise<Task> {
