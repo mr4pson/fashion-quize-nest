@@ -39,7 +39,7 @@ export class TaskController {
 
   @ApiOperation({ summary: 'Get user tasks' })
   @ApiResponse({ status: 200, description: 'Return all tasks.'})
-  @Get('/stylist-tasks')
+  @Get('/user-tasks')
   @HasRoles(RoleType.STYLIST, RoleType.ADMIN)
   @UseGuards(JwtAuthGuard, RolesGuard)
   getUserTasks(@Request() req): Promise<Task[]> {

@@ -1,7 +1,7 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { TaskStatuses } from '../shared/enum/task-statuses.enum';
-import { TaskTypes } from '../shared/enum/task-types.enum';
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { User } from '../user/model/user.entity';
+import { TaskStatus } from './task-status.entity';
+import { TaskType } from './task-type.entity';
 
 @Entity()
 export class Task {
@@ -11,11 +11,17 @@ export class Task {
   @Column()
   date: string;
 
-  @Column()
-  type: TaskTypes;
+  @CreateDateColumn()
+  createdAt: Date;
 
-  @Column()
-  status: TaskStatuses;
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @ManyToOne(type => TaskType, type => type)
+  type: TaskType;
+
+  @ManyToOne(type => TaskStatus, status => status)
+  status: TaskStatus;
 
   @Column()
   comment: string;

@@ -1,7 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty } from "class-validator";
-import { TaskStatuses } from "../shared/enum/task-statuses.enum";
-import { TaskTypes } from "../shared/enum/task-types.enum";
 
 export class ChangeTaskDto {
   @IsNotEmpty()
@@ -16,14 +14,14 @@ export class ChangeTaskDto {
     type: String,
     required: true,
   })
-  readonly type: TaskTypes;
+  readonly type: number;
 
   @IsNotEmpty()
   @ApiProperty({
     type: String,
     required: true,
   })
-  readonly status: TaskStatuses;
+  readonly status: number;
 
   @IsNotEmpty()
   @ApiProperty({
