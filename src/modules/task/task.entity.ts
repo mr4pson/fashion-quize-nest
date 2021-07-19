@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Compilation } from '../compilation/compilation.entity';
 import { User } from '../user/model/user.entity';
 import { TaskStatus } from './task-status.entity';
 import { TaskType } from './task-type.entity';
@@ -31,4 +32,8 @@ export class Task {
 
   @ManyToOne(type => User, stilist => stilist)
   stylist: User;
+
+  @OneToOne(() => Compilation, compilation => compilation.task)
+  @JoinColumn()
+  compilation?: Compilation;
 }

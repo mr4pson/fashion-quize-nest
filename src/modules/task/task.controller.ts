@@ -56,10 +56,9 @@ export class TaskController {
   @HasRoles(RoleType.USER, RoleType.STYLIST, RoleType.ADMIN)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get(':id')
-  getTaskId(@Param('id') id: number): Promise<Task> {
+  getTaskById(@Param('id') id: number): Promise<Task> {
     return this.taskService.findById(id);
   }
-  
 
   @ApiOperation({ summary: 'Create task' })
   @ApiResponse({ status: 201, description: 'The task has been successfully created.'})
