@@ -1,8 +1,7 @@
-import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import { Controller, Get, Param } from "@nestjs/common";
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { Answer } from "./answer.entity";
 import { AnswerService } from "./answer.service";
-import { CreateAnswerDto } from "./create-answer.dto";
 
 @ApiBearerAuth()
 @ApiTags('answers')
@@ -24,13 +23,5 @@ export class AnswerController {
   @Get(':id')
   getAnswerId(@Param('id') id: number): Promise<Answer> {
     return this.answerService.findById(id);
-  }
-
-  @ApiOperation({ summary: 'Create answer' })
-  @ApiResponse({ status: 201, description: 'The answer has been successfully created.'})
-  @ApiResponse({ status: 401, description: 'Unauthorized.' })
-  @Post('')
-  createAnswer(@Body() answer: CreateAnswerDto): Promise<Answer> {
-    return this.answerService.create(answer);
   }
 }

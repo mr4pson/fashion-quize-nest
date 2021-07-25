@@ -1,12 +1,14 @@
 import { Body, Controller, Get, NotFoundException, Post, Request, UseGuards } from '@nestjs/common';
+import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Connection, Repository } from 'typeorm';
+import { Answer } from '../answer/answer.entity';
+import { MailService } from '../mail/mail.service';
 import { User } from '../user/model/user.entity';
 import { JwtAuthGuard } from './guard/jwt-auth.guard';
 import { LocalAuthGuard } from './guard/local-auth.guard';
+import { RegistrationDto } from './registration.dto';
 import { AuthService } from './service/auth.service';
-import { MailService } from '../mail/mail.service';
 import { ChangePasswordRequestService } from './service/change-password-request.service';
-
 @Controller('auth')
 export class AuthController {
   private userRepository: Repository<User>;
@@ -44,6 +46,13 @@ export class AuthController {
   async refresh(@Request() req) {
     const user = await this.userRepository.findOne(req.user.id);
     return this.authService.login(user);
+  }
+
+  @ApiOperation({ summary: 'Registrate user user' })
+  @ApiResponse({ status: 201, description: 'The user has been successfully created.'})
+  @Post('registrate')
+  createAnswer(@Body() answer: RegistrationDto): Promise<Answer> {
+    return this.authService.registrate(answer);
   }
 
   @Post('reset-password')
