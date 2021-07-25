@@ -11,6 +11,13 @@ export class CreateCompilationDto {
 
   @IsNotEmpty()
   @ApiProperty({
+    type: Number,
+    required: true,
+  })
+  readonly status: number;
+
+  @IsNotEmpty()
+  @ApiProperty({
     type: String,
     required: true,
   })

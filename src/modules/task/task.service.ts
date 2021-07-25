@@ -92,6 +92,7 @@ export class TaskService {
           }, 'task', 'task.stylistId = user.id')
           .where('user.roles = :role', { role: '["STYLIST"]' })
           .groupBy('user.id')
+          .addGroupBy('task.num')
       }, "t")
       .getRawOne();
 
@@ -111,6 +112,7 @@ export class TaskService {
           }, 'task', 'task.stylistId = user.id')
           .where('user.roles = :role', { role: '["STYLIST"]' })
           .groupBy('user.id')
+          .addGroupBy('task.num')
           .having('number = :maxNumber', { maxNumber: minNumberData.number });
       }, "t1")
       .getRawOne();
