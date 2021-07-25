@@ -29,8 +29,8 @@ export class CompilationService {
   async findAll(): Promise<Compilation[]> {
     return this.compilationRepository.createQueryBuilder("compilation")
       .innerJoinAndSelect("compilation.task", "task")
-      .innerJoinAndSelect("compilation.looks", "look")
-      .innerJoinAndSelect("look.items", "lookItem")
+      .leftJoinAndSelect("compilation.looks", "look")
+      .leftJoinAndSelect("look.items", "lookItem")
       .innerJoinAndSelect("task.user", "user")
       .innerJoinAndSelect("task.status", "status")
       .getMany();
@@ -39,8 +39,8 @@ export class CompilationService {
   async findById(id: number): Promise<Compilation> {
     return this.compilationRepository.createQueryBuilder("compilation")
       .innerJoinAndSelect("compilation.task", "task")
-      .innerJoinAndSelect("compilation.looks", "look")
-      .innerJoinAndSelect("look.items", "lookItem")
+      .leftJoinAndSelect("compilation.looks", "look")
+      .leftJoinAndSelect("look.items", "lookItem")
       .innerJoinAndSelect("task.user", "user")
       .innerJoinAndSelect("task.status", "status")
       .where("compilation.id = :id", { id })
@@ -86,8 +86,8 @@ export class CompilationService {
   async update(id, compilationData: UpdateCompilationDto): Promise<Compilation> {
     const compilation = await this.compilationRepository.createQueryBuilder("compilation")
     .innerJoinAndSelect("compilation.task", "task")
-    .innerJoinAndSelect("compilation.looks", "look")
-    .innerJoinAndSelect("look.items", "lookItem")
+    .leftJoinAndSelect("compilation.looks", "look")
+    .leftJoinAndSelect("look.items", "lookItem")
     .innerJoinAndSelect("task.user", "user")
     .innerJoinAndSelect("task.status", "status")
     .where("compilation.id = :id", { id })
