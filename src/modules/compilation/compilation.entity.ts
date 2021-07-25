@@ -1,4 +1,4 @@
-import { Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { CreateDateColumn, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Task } from "../task/task.entity";
 import { Look } from "./look.entity";
 
@@ -12,4 +12,10 @@ export class Compilation {
 
   @OneToMany(type => Look, look => look.compilation, { onDelete: "CASCADE", cascade: true })
   looks: Look[];
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

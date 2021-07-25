@@ -5,7 +5,7 @@ import { HasRoles } from '../auth/guard/has-roles.decorator';
 import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 import { RolesGuard } from '../auth/guard/roles.guard';
 import { RoleType } from '../shared/enum/role-type.enum';
-import { CreateCompilationDto } from './change-compilation.dto';
+import { CreateCompilationDto } from './create-compilation.dto';
 import { Compilation } from './compilation.entity';
 import { CompilationService } from './compilation.service';
 import { UpdateCompilationDto } from './update-compilation.dto';
