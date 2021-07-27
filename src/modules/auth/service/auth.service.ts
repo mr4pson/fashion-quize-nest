@@ -33,7 +33,15 @@ export class AuthService {
   }
 
   async login(user: User) {
-    const payload = { id: user.id, roles: user.roles, name: user.name };
+    const payload = {
+      id: user.id,
+      roles: user.roles,
+      name: user.name,
+      age: user.age,
+      city: user.city,
+      login: user.login,
+      createdAt: user.createdAt,
+    };
     return {
       accessToken: this.jwtService.sign(payload)
     }
@@ -50,6 +58,8 @@ export class AuthService {
       login: answerData.email,
       name: answerData.name,
       roles: '["USER"]',
+      age: answerData.age,
+      city: answerData.city,
       passwordHash: await bcrypt.hash(password, 10),
     });
 

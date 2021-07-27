@@ -39,7 +39,7 @@ export class TaskService {
 
   async create(userId: number, taskData: ChangeTaskDto): Promise<Task> {
     const user = await this.userRepository.findOne(userId);
-    const status = await this.taskStatusRepository.findOne(taskData.status);
+    const status = await this.taskStatusRepository.findOne({ where: { title: 'Новая' } });
     const type = await this.taskTypeRepository.findOne(taskData.type);
 
     const task = new Task();
@@ -74,7 +74,7 @@ export class TaskService {
   }
 
   async getMostFreeStylist(): Promise<User> {
-    const statusDoneId = 1;
+    const statusDoneId = 3;
   
     const minNumberData = await this.connection
       .createQueryBuilder()

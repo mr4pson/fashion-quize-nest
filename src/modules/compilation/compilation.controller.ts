@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Request, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
 import { HasRoles } from '../auth/guard/has-roles.decorator';
@@ -16,9 +16,8 @@ import { UpdateCompilationDto } from './update-compilation.dto';
 export class CompilationController {
   constructor(
     private compilationService: CompilationService,
-  ) {
+  ) {}
 
-  }
   @ApiOperation({ summary: 'Get all compilations' })
   @ApiResponse({ status: 200, description: 'Return all compilations.'})
   @Get('')
@@ -26,6 +25,15 @@ export class CompilationController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   getCompilations(): Promise<Compilation[]> {
     return this.compilationService.findAll();
+  }
+
+  @ApiOperation({ summary: 'Get user compilations' })
+  @ApiResponse({ status: 200, description: 'Return user compilations.'})
+  @Get('/user-compilations')
+  @HasRoles(RoleType.USER)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  getUserCompilations(@Request() req): Promise<Compilation[]> {
+    return this.compilationService.findUserCompilations(req.user.id);
   }
 
   @ApiOperation({ summary: 'Get compilation by id' })

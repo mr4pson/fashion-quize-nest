@@ -20,7 +20,7 @@ export class StylistService {
   async findAll(): Promise<User[]> {
     return this.userRepository
       .createQueryBuilder("user")
-      .select(['user.id', 'user.name', 'user.login', 'user.createdAt', 'user.updatedAt'])
+      .select(['user.id', 'user.name', 'user.login', 'user.createdAt', 'user.updatedAt', 'user.age', 'user.city'])
       .where("user.roles like :roles", { roles: `%STYLIST%` })
       .getMany();
   }
