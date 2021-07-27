@@ -18,6 +18,20 @@ export class RegistrationDto {
 
   @IsNotEmpty()
   @ApiProperty({
+    type: Number,
+    required: true,
+  })
+  readonly age: number;
+
+  @IsNotEmpty()
+  @ApiProperty({
+    type: String,
+    required: true,
+  })
+  readonly city: string;
+
+  @IsNotEmpty()
+  @ApiProperty({
     type: String,
     required: true,
   })

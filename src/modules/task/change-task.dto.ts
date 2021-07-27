@@ -16,17 +16,15 @@ export class ChangeTaskDto {
   })
   readonly type: number;
 
-  @IsNotEmpty()
   @ApiProperty({
     type: String,
-    required: true,
+    required: false,
   })
   readonly status: number;
 
-  @IsNotEmpty()
   @ApiProperty({
     type: String,
-    required: true,
+    required: false,
   })
   readonly comment: string;
 }

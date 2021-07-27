@@ -1,7 +1,6 @@
 import { Answer } from 'src/modules/answer/answer.entity';
-import { Compilation } from 'src/modules/compilation/compilation.entity';
 import { Task } from 'src/modules/task/task.entity';
-import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { ChangePasswordRequest } from '../../auth/change-password-request.entity';
 
 @Entity()
@@ -17,6 +16,12 @@ export class User {
 
   @Column({ nullable: false })
   name: string;
+
+  @Column()
+  age: number;
+
+  @Column()
+  city: string;
   
   @Column({ nullable: false })
   roles: string;

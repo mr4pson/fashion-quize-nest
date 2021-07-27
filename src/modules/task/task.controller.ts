@@ -40,7 +40,7 @@ export class TaskController {
   @ApiOperation({ summary: 'Get user tasks' })
   @ApiResponse({ status: 200, description: 'Return all tasks.'})
   @Get('/user-tasks')
-  @HasRoles(RoleType.STYLIST, RoleType.ADMIN)
+  @HasRoles(RoleType.USER, RoleType.ADMIN)
   @UseGuards(JwtAuthGuard, RolesGuard)
   getUserTasks(@Request() req): Promise<Task[]> {
     return this.taskService.findUserTasks(req.user.id);

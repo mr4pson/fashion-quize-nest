@@ -36,6 +36,17 @@ export class CompilationService {
       .getMany();
   }
 
+  async findUserCompilations(id: number): Promise<Compilation[]> {
+    return this.compilationRepository.createQueryBuilder("compilation")
+      .innerJoinAndSelect("compilation.task", "task")
+      .leftJoinAndSelect("compilation.looks", "look")
+      .leftJoinAndSelect("look.items", "lookItem")
+      .innerJoinAndSelect("task.user", "user")
+      .innerJoinAndSelect("task.status", "status")
+      .where("user.id = :id", { id })
+      .getMany();
+  }
+
   async findById(id: number): Promise<Compilation> {
     return this.compilationRepository.createQueryBuilder("compilation")
       .innerJoinAndSelect("compilation.task", "task")
@@ -49,20 +60,20 @@ export class CompilationService {
 
   async create(compilationData: CreateCompilationDto): Promise<Compilation> {
     const task = await this.taskRepository.findOne(compilationData.taskId, { relations: ['compilation'] });
-    
+
     if (task.compilation) {
       throw new ConflictException('Compilation was already assigned to that task.');
     }
-  
+
     const status = await this.taskStatusRepository.findOne(compilationData.status);
-  
+
     task.status = status;
 
     const compilationObj = new Compilation();
     compilationObj.task = task;
     compilationObj.createdAt = new Date();
     compilationObj.updatedAt = new Date();
-  
+
     const compilation = await this.compilationRepository.save(compilationObj);
 
     const looks: LookItem[][] = JSON.parse(compilationData.looks);
@@ -85,13 +96,13 @@ export class CompilationService {
 
   async update(id, compilationData: UpdateCompilationDto): Promise<Compilation> {
     const compilation = await this.compilationRepository.createQueryBuilder("compilation")
-    .innerJoinAndSelect("compilation.task", "task")
-    .leftJoinAndSelect("compilation.looks", "look")
-    .leftJoinAndSelect("look.items", "lookItem")
-    .innerJoinAndSelect("task.user", "user")
-    .innerJoinAndSelect("task.status", "status")
-    .where("compilation.id = :id", { id })
-    .getOne();
+      .innerJoinAndSelect("compilation.task", "task")
+      .leftJoinAndSelect("compilation.looks", "look")
+      .leftJoinAndSelect("look.items", "lookItem")
+      .innerJoinAndSelect("task.user", "user")
+      .innerJoinAndSelect("task.status", "status")
+      .where("compilation.id = :id", { id })
+      .getOne();
 
     const status = await this.taskStatusRepository.findOne(compilationData.status);
 
@@ -102,7 +113,7 @@ export class CompilationService {
     compilation.updatedAt = new Date();
 
     const looks: Look[] = JSON.parse(compilationData.looks);
-  
+
     looks.forEach(async (look) => {
       look.items.forEach(async (item) => {
         if (!item.id) {
