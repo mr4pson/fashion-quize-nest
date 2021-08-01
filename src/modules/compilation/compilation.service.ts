@@ -76,17 +76,17 @@ export class CompilationService {
 
     const compilation = await this.compilationRepository.save(compilationObj);
 
-    const looks: LookItem[][] = JSON.parse(compilationData.looks);
+    const looks: Look[] = JSON.parse(compilationData.looks);
 
-    looks.forEach(async (items) => {
+    looks.forEach(async (look) => {
       const lookObj = new Look();
       lookObj.compilation = compilation;
-      const look = await this.lookRepository.save(lookObj);
-      items.forEach(async (item) => {
+      const lookInst = await this.lookRepository.save(lookObj);
+      look.items.forEach(async (item) => {
         const lookItemObj = new LookItem();
         lookItemObj.name = item.name;
         lookItemObj.photo = item.photo;
-        lookItemObj.look = look;
+        lookItemObj.look = lookInst;
         await this.lookItemRepository.save(lookItemObj);
       });
     });
@@ -114,17 +114,26 @@ export class CompilationService {
 
     const looks: Look[] = JSON.parse(compilationData.looks);
 
-    looks.forEach(async (look) => {
+    compilation.looks.forEach((look, lookIndex) => {
+      const missingItems = look.items.filter(item => !looks[lookIndex].items.find(curItem => curItem.id === item.id));
+      missingItems.forEach(item => {
+        this.lookItemRepository.remove(item);
+      });
+    });
+
+    looks.forEach(async (look, lookIndex) => {
       look.items.forEach(async (item) => {
         if (!item.id) {
           const lookItemObj = new LookItem();
           lookItemObj.name = item.name;
           lookItemObj.photo = item.photo;
           lookItemObj.look = look;
-          await this.lookItemRepository.save(lookItemObj);
+          compilation.looks[lookIndex].items.push(lookItemObj);
         }
       });
     });
+  
+    compilation.looks = looks;
 
     return this.compilationRepository.save(compilation);
   }
