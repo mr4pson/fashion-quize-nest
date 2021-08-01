@@ -15,7 +15,7 @@ export class Question {
   @Column()
   type: QuestionType;
 
-  @Column()
+  @Column("text")
   options: string;
 
   @Column()
