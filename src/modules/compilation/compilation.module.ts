@@ -4,6 +4,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Compilation } from './compilation.entity';
 import { Look } from './look.entity';
+import { MailService } from '../mail/mail.service';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { Look } from './look.entity';
   ],
   providers: [
     CompilationService,
+    MailService,
   ],
 })
 export class CompilationModule { }

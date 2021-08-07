@@ -22,11 +22,11 @@ export class TaskService {
   }
 
   async findAll(): Promise<Task[]> {
-    return this.taskRepository.find({ relations: ['status', 'type', 'compilation'] });
+    return this.taskRepository.find({ relations: ['status', 'type', 'compilation', 'user'] });
   }
 
   async findStylistTasks(stylistId: number): Promise<Task[]> {
-    return this.taskRepository.find({ relations: ['status', 'type', 'compilation'], where: { stylist: stylistId } });
+    return this.taskRepository.find({ relations: ['status', 'type', 'compilation', 'user'], where: { stylist: stylistId } });
   }
 
   async findUserTasks(userId: number): Promise<Task[]> {

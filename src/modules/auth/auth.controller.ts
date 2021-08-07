@@ -1,4 +1,4 @@
-import { Body, Controller, Get, NotFoundException, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, ConflictException, Controller, Get, NotFoundException, Param, Post, Request, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Connection, Repository } from 'typeorm';
 import { Answer } from '../answer/answer.entity';
@@ -51,8 +51,23 @@ export class AuthController {
   @ApiOperation({ summary: 'Registrate user user' })
   @ApiResponse({ status: 201, description: 'The user has been successfully created.'})
   @Post('registrate')
-  createAnswer(@Body() answer: RegistrationDto): Promise<Answer> {
-    return this.authService.registrate(answer);
+  async createAnswer(@Body() regData: RegistrationDto): Promise<Answer> {
+    const user = await this.userRepository.findOne({ where: { login: regData.email } });
+  
+    if (user) {
+      throw new ConflictException();
+    }
+    return this.authService.registrate(regData);
+  }
+
+  @Get('check-email/:email')
+  async checkIfEmailExist(@Param('email') email: string) {
+    const user = await this.userRepository.findOne({ where: { login: email } });
+
+    if (user) {
+      throw new ConflictException();
+    }
+    return new Promise((resolve) => resolve(null));
   }
 
   @Post('reset-password')
