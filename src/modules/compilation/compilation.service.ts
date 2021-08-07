@@ -7,6 +7,8 @@ import { Compilation } from './compilation.entity';
 import { LookItem } from './look-item.entity';
 import { Look } from './look.entity';
 import { UpdateCompilationDto } from './update-compilation.dto';
+import { MailService } from '../mail/mail.service';
+import { User } from '../user/model/user.entity';
 
 @Injectable()
 export class CompilationService {
@@ -18,6 +20,7 @@ export class CompilationService {
 
   constructor(
     private connection: Connection,
+    private mailService: MailService,
   ) {
     this.compilationRepository = this.connection.getRepository(Compilation);
     this.taskRepository = this.connection.getRepository(Task);
@@ -59,7 +62,7 @@ export class CompilationService {
   }
 
   async create(compilationData: CreateCompilationDto): Promise<Compilation> {
-    const task = await this.taskRepository.findOne(compilationData.taskId, { relations: ['compilation'] });
+    const task = await this.taskRepository.findOne(compilationData.taskId, { relations: ['compilation', 'user'] });
 
     if (task.compilation) {
       throw new ConflictException('Compilation was already assigned to that task.');
@@ -90,6 +93,8 @@ export class CompilationService {
         await this.lookItemRepository.save(lookItemObj);
       });
     });
+
+    await this.mailService.compilationCreated(task.user);
 
     return this.compilationRepository.save(compilation);
   }
@@ -134,6 +139,8 @@ export class CompilationService {
     });
   
     compilation.looks = looks;
+
+    await this.mailService.compilationCreated(compilation.task.user);
 
     return this.compilationRepository.save(compilation);
   }

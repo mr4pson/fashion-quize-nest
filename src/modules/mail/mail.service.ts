@@ -56,4 +56,15 @@ export class MailService {
       },
     });
   }
+
+  async compilationCreated(user: User) {
+    await this.mailerService.sendMail({
+      to: user.login,
+      subject: 'Eyelish.ru. Вам подтвердили новые подборки.',
+      template: './compilation-created',
+      context: {
+        name: user.name,
+      },
+    });
+  }
 }
