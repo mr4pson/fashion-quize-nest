@@ -29,4 +29,11 @@ export class ChangeStylistDto {
     required: true,
   })
   readonly city: string;
+
+  @IsNotEmpty()
+  @ApiProperty({
+    type: String,
+    required: true,
+  })
+  readonly sex: string;
 }

@@ -8,7 +8,6 @@ import { LookItem } from './look-item.entity';
 import { Look } from './look.entity';
 import { UpdateCompilationDto } from './update-compilation.dto';
 import { MailService } from '../mail/mail.service';
-import { User } from '../user/model/user.entity';
 
 @Injectable()
 export class CompilationService {
@@ -50,6 +49,17 @@ export class CompilationService {
       .getMany();
   }
 
+  async findStylistCompilations(id: number): Promise<Compilation[]> {
+    return this.compilationRepository.createQueryBuilder("compilation")
+      .innerJoinAndSelect("compilation.task", "task")
+      .leftJoinAndSelect("compilation.looks", "look")
+      .leftJoinAndSelect("look.items", "lookItem")
+      .innerJoinAndSelect("task.user", "user")
+      .innerJoinAndSelect("task.status", "status")
+      .where("task.stylist = :id", { id })
+      .getMany();
+  }
+
   async findById(id: number): Promise<Compilation> {
     return this.compilationRepository.createQueryBuilder("compilation")
       .innerJoinAndSelect("compilation.task", "task")
@@ -71,6 +81,8 @@ export class CompilationService {
     const status = await this.taskStatusRepository.findOne(compilationData.status);
 
     task.status = status;
+
+    await this.taskRepository.save(task);
 
     const compilationObj = new Compilation();
     compilationObj.task = task;
@@ -95,6 +107,8 @@ export class CompilationService {
     });
 
     await this.mailService.compilationCreated(task.user);
+
+    compilation.task = task;
 
     return this.compilationRepository.save(compilation);
   }

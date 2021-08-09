@@ -36,6 +36,7 @@ export class AuthController {
       login: userData.login,
       fullName: userData.name,
       roles: userData.roles,
+      sex: userData.sex,
       createdAt: userData.createdAt,
       updatedAt: userData.updatedAt
     }

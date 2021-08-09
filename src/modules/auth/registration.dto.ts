@@ -35,5 +35,12 @@ export class RegistrationDto {
     type: String,
     required: true,
   })
+  readonly sex: string;
+
+  @IsNotEmpty()
+  @ApiProperty({
+    type: String,
+    required: true,
+  })
   readonly data: string;
 }

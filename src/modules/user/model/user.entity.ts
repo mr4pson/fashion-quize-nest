@@ -22,6 +22,9 @@ export class User {
 
   @Column()
   city: string;
+
+  @Column()
+  sex: string;
   
   @Column({ nullable: false })
   roles: string;
