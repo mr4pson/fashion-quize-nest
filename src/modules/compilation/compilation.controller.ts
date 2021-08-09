@@ -36,6 +36,15 @@ export class CompilationController {
     return this.compilationService.findUserCompilations(req.user.id);
   }
 
+  @ApiOperation({ summary: 'Get stylist compilations' })
+  @ApiResponse({ status: 200, description: 'Return user compilations.'})
+  @Get('/stylist-compilations')
+  @HasRoles(RoleType.STYLIST)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  getStylistCompilations(@Request() req): Promise<Compilation[]> {
+    return this.compilationService.findStylistCompilations(req.user.id);
+  }
+
   @ApiOperation({ summary: 'Get compilation by id' })
   @ApiResponse({ status: 200, description: 'Return compilation by id.'})
   @HasRoles(RoleType.STYLIST, RoleType.ADMIN)

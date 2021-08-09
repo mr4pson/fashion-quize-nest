@@ -6,21 +6,26 @@ import * as bcrypt from 'bcrypt';
 import { RoleType } from '../shared/enum/role-type.enum';
 import { generateRandomString } from '../shared/utils/generate-random-string.utils';
 import { MailService } from '../mail/mail.service'
+import { Task } from '../task/task.entity';
+import { TaskService } from '../task/task.service';
 
 @Injectable()
 export class StylistService {
   private userRepository: Repository<User>;
+  private taskRepository: Repository<Task>;
   constructor(
     private connection: Connection,
     private mailService: MailService,
+    private taskService: TaskService,
   ) {
     this.userRepository = this.connection.getRepository(User);
+    this.taskRepository = this.connection.getRepository(Task);
   }
 
   async findAll(): Promise<User[]> {
     return this.userRepository
       .createQueryBuilder("user")
-      .select(['user.id', 'user.name', 'user.login', 'user.createdAt', 'user.updatedAt', 'user.age', 'user.city'])
+      .select(['user.id', 'user.name', 'user.login', 'user.createdAt', 'user.updatedAt', 'user.age', 'user.city', 'user.sex'])
       .where("user.roles like :roles", { roles: `%STYLIST%` })
       .getMany();
   }
@@ -65,6 +70,13 @@ export class StylistService {
   }
 
   async delete(id: number): Promise<DeleteResult> {
+    const tasks = await this.taskService.findStylistTasks(id);
+    const promises = [];
+    tasks.forEach(async (task) => {
+      task.stylist = null;
+      promises.push(this.taskRepository.save(task));
+    });
+    await Promise.all(promises);
     return await this.userRepository.delete(id);
   }
 }

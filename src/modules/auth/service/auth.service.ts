@@ -38,6 +38,7 @@ export class AuthService {
       roles: user.roles,
       name: user.name,
       age: user.age,
+      sex: user.sex,
       city: user.city,
       login: user.login,
       createdAt: user.createdAt,
@@ -59,6 +60,7 @@ export class AuthService {
       name: answerData.name,
       roles: '["USER"]',
       age: answerData.age,
+      sex: answerData.sex,
       city: answerData.city,
       passwordHash: await bcrypt.hash(password, 10),
     });
