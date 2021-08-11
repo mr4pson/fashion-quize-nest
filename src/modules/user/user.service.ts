@@ -32,6 +32,12 @@ export class UserService {
   }
 
   async findById(id: number): Promise<User> {
-    return this.userRepository.findOne(id);
+    return this.userRepository.createQueryBuilder('user')
+      .leftJoinAndSelect("user.tasks", "task")
+      .leftJoinAndSelect("user.answers", "answers")
+      .leftJoinAndSelect("task.status", "status")
+      .leftJoinAndSelect("task.type", "type")
+      .where("user.id = :id", { id })
+      .getOne();
   }
 }
