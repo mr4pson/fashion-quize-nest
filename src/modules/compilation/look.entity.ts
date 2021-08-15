@@ -1,4 +1,4 @@
-import { Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Compilation } from "./compilation.entity";
 import { LookItem } from "./look-item.entity";
 
@@ -6,6 +6,9 @@ import { LookItem } from "./look-item.entity";
 export class Look {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column()
+  selected: boolean;
 
   @ManyToOne(type => Compilation, compilation => compilation, { onDelete: "CASCADE" })
   compilation?: Compilation;

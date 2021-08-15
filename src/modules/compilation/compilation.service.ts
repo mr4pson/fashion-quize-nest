@@ -8,6 +8,7 @@ import { LookItem } from './look-item.entity';
 import { Look } from './look.entity';
 import { UpdateCompilationDto } from './update-compilation.dto';
 import { MailService } from '../mail/mail.service';
+import { RateCompilationDto } from './rate-compilation.dto';
 
 @Injectable()
 export class CompilationService {
@@ -113,6 +114,31 @@ export class CompilationService {
     return this.compilationRepository.save(compilation);
   }
 
+  async rate(compilationData: RateCompilationDto) {
+    const task = await this.taskRepository.findOne({ where: { id: compilationData.taskId }, relations: ['compilation'] });
+
+    const completedTaskStatus = await this.taskStatusRepository.findOne({ where: { title: 'Подтверждена пользователем' } });
+    task.status = completedTaskStatus;
+    await this.taskRepository.save(task);
+
+    const looks = JSON.parse(compilationData.looks);
+    const promises = [];
+    looks.forEach(async (lookObj) => {
+      const look = await this.lookRepository.findOne(lookObj.id);
+      look.selected = lookObj.selected;
+
+      promises.push(this.lookRepository.save(lookObj));
+    });
+
+    const compilation = await this.compilationRepository.findOne(task.compilation);
+    compilation.task = task;
+    await this.compilationRepository.save(compilation);
+
+    console.log(compilation);
+
+    return await Promise.all(promises);
+  }
+
   async update(id, compilationData: UpdateCompilationDto): Promise<Compilation> {
     const compilation = await this.compilationRepository.createQueryBuilder("compilation")
       .innerJoinAndSelect("compilation.task", "task")
@@ -151,7 +177,7 @@ export class CompilationService {
         }
       });
     });
-  
+
     compilation.looks = looks;
 
     await this.mailService.compilationCreated(compilation.task.user);

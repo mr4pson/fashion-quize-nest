@@ -9,6 +9,7 @@ import { CreateCompilationDto } from './create-compilation.dto';
 import { Compilation } from './compilation.entity';
 import { CompilationService } from './compilation.service';
 import { UpdateCompilationDto } from './update-compilation.dto';
+import { RateCompilationDto } from './rate-compilation.dto';
 
 @ApiBearerAuth()
 @ApiTags('compilations')
@@ -52,6 +53,15 @@ export class CompilationController {
   @Get(':id')
   getCompilationById(@Param('id') id: number): Promise<Compilation> {
     return this.compilationService.findById(id);
+  }
+  @ApiOperation({ summary: 'Rate compilation' })
+  @ApiResponse({ status: 201, description: 'The compilation has been successfully rated.'})
+  @ApiResponse({ status: 401, description: 'Unauthorized.' })
+  @HasRoles(RoleType.USER)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Post('/rate')
+  rateCompilation(@Body() compilation: RateCompilationDto): Promise<any[]> {
+    return this.compilationService.rate(compilation);
   }
 
   @ApiOperation({ summary: 'Create compilation' })
