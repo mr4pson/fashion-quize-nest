@@ -7,7 +7,7 @@ export class Look {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ nullable: true })
   selected: boolean;
 
   @ManyToOne(type => Compilation, compilation => compilation, { onDelete: "CASCADE" })
