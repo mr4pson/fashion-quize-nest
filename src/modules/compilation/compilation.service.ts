@@ -134,8 +134,6 @@ export class CompilationService {
     compilation.task = task;
     await this.compilationRepository.save(compilation);
 
-    console.log(compilation);
-
     return await Promise.all(promises);
   }
 
