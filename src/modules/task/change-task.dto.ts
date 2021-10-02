@@ -14,6 +14,13 @@ export class ChangeTaskDto {
     type: String,
     required: true,
   })
+  readonly time: string;
+
+  @IsNotEmpty()
+  @ApiProperty({
+    type: String,
+    required: true,
+  })
   readonly type: number;
 
   @ApiProperty({
