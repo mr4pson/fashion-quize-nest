@@ -12,6 +12,9 @@ export class Task {
   @Column()
   date: string;
 
+  @Column()
+  time: string;
+
   @CreateDateColumn()
   createdAt: Date;
 

@@ -45,6 +45,7 @@ export class TaskService {
     const task = new Task();
     task.comment = taskData.comment;
     task.date = taskData.date;
+    task.time = taskData.time;
     task.status = status;
     task.type = type;
     task.user = user;
@@ -62,6 +63,7 @@ export class TaskService {
 
     task.comment = taskData.comment;
     task.date = taskData.date;
+    task.time = taskData.time;
     task.status = status;
     task.type = type;
     task.updatedAt = new Date();
