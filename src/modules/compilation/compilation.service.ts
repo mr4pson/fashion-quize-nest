@@ -36,6 +36,7 @@ export class CompilationService {
       .leftJoinAndSelect("look.items", "lookItem")
       .innerJoinAndSelect("task.user", "user")
       .innerJoinAndSelect("task.status", "status")
+      .orderBy('compilation.id', 'DESC')
       .getMany();
   }
 
@@ -47,6 +48,7 @@ export class CompilationService {
       .innerJoinAndSelect("task.user", "user")
       .innerJoinAndSelect("task.status", "status")
       .where("user.id = :id", { id })
+      .orderBy('compilation.id', 'DESC')
       .getMany();
   }
 
@@ -58,6 +60,7 @@ export class CompilationService {
       .innerJoinAndSelect("task.user", "user")
       .innerJoinAndSelect("task.status", "status")
       .where("task.stylist = :id", { id })
+      .orderBy('compilation.id', 'DESC')
       .getMany();
   }
 
