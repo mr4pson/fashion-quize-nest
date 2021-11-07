@@ -12,6 +12,9 @@ export class LookItem {
   @Column()
   photo: string;
 
+  @Column()
+  price: number;
+
   @ManyToOne(type => Look, look => look, { onDelete: "CASCADE" })
   look?: Look;
 }

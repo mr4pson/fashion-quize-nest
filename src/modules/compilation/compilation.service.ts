@@ -105,6 +105,7 @@ export class CompilationService {
         const lookItemObj = new LookItem();
         lookItemObj.name = item.name;
         lookItemObj.photo = item.photo;
+        lookItemObj.price = item.price;
         lookItemObj.look = lookInst;
         await this.lookItemRepository.save(lookItemObj);
       });
@@ -173,6 +174,7 @@ export class CompilationService {
           const lookItemObj = new LookItem();
           lookItemObj.name = item.name;
           lookItemObj.photo = item.photo;
+          lookItemObj.price = item.price;
           lookItemObj.look = look;
           compilation.looks[lookIndex].items.push(lookItemObj);
         }
