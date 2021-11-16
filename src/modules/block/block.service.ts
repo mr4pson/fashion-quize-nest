@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Connection, DeleteResult, Repository } from 'typeorm';
+import { QuizeTypes } from '../question/types';
 import { Block } from './block.entity';
 import { ChangeBlockDto } from './change-block.dto';
 
@@ -13,7 +14,14 @@ export class BlockService {
   }
 
   async findAll(): Promise<Block[]> {
-    return this.blockRepository.find();
+    return this.blockRepository.find({ relations: ['questions'] })
+  }
+
+  async findAllByQuizeType(quizeType: QuizeTypes): Promise<Block[]> {
+    return this.blockRepository.createQueryBuilder("block")
+    .leftJoinAndSelect("block.questions", "question")
+    .where("question.quizeType = :quizeType", { quizeType })
+    .getMany();
   }
 
   async findById(id: number): Promise<Block> {
