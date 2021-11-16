@@ -4,6 +4,7 @@ import { DeleteResult } from 'typeorm';
 import { HasRoles } from '../auth/guard/has-roles.decorator';
 import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 import { RolesGuard } from '../auth/guard/roles.guard';
+import { QuizeTypes } from '../question/types';
 import { RoleType } from '../shared/enum/role-type.enum';
 import { Block } from './block.entity';
 import { BlockService } from './block.service';
@@ -22,6 +23,14 @@ export class BlockController {
   @Get('')
   getBlocks(): Promise<Block[]> {
     return this.blockService.findAll();
+  }
+
+
+  @ApiOperation({ summary: 'Get all blocks and filter questions by quize type' })
+  @ApiResponse({ status: 200, description: 'Return all blocks and filters questions by quize type.'})
+  @Get('filterQuestionsByQuizeType/:quizeType')
+  getBlockAndFilterQuiestionsByQuizeType(@Param('quizeType') quizeType: QuizeTypes): Promise<Block[]> {
+    return this.blockService.findAllByQuizeType(quizeType);
   }
 
   @ApiOperation({ summary: 'Get block by id' })
