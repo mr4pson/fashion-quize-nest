@@ -120,12 +120,14 @@ export class CompilationService {
 
   async rate(compilationData: RateCompilationDto) {
     const task = await this.taskRepository.findOne({ where: { id: compilationData.taskId }, relations: ['compilation'] });
-
-    const completedTaskStatus = await this.taskStatusRepository.findOne({ where: { title: 'Подтверждена пользователем' } });
-    task.status = completedTaskStatus;
-    await this.taskRepository.save(task);
-
     const looks = JSON.parse(compilationData.looks);
+
+    if (this.checkIfAllLooksSelected(looks)) {
+      const completedTaskStatus = await this.taskStatusRepository.findOne({ where: { title: 'Подтверждена' } });
+      task.status = completedTaskStatus;
+      await this.taskRepository.save(task);
+    }
+
     const promises = [];
     looks.forEach(async (lookObj) => {
       const look = await this.lookRepository.findOne(lookObj.id);
@@ -140,6 +142,12 @@ export class CompilationService {
 
     return await Promise.all(promises);
   }
+
+  private checkIfAllLooksSelected(looks: Look[]) {
+    return looks.reduce((accum, currentValue) => {
+      return accum && currentValue.selected !== null && currentValue.selected !== undefined;
+    }, true);
+  };
 
   async update(id, compilationData: UpdateCompilationDto): Promise<Compilation> {
     const compilation = await this.compilationRepository.createQueryBuilder("compilation")
