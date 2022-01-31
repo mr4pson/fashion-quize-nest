@@ -32,6 +32,7 @@ export class QuestionService {
     const block = await this.blockRepository.findOne(questionData.block);
 
     const question = new Question();
+    question.title = questionData.title;
     question.description = questionData.description;
     question.image = questionData.image;
     question.image = questionData.image ? questionData.image : '';
@@ -47,6 +48,7 @@ export class QuestionService {
     const question = await this.questionRepository.findOne(id);
     const block = await this.blockRepository.findOne(questionData.block);
 
+    question.title = questionData.title;
     question.description = questionData.description;
     question.image = questionData.image ? questionData.image : '';
     question.type = questionData.type;
