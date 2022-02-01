@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
-import { QuestionType, QuizeTypes } from './types';
+import { QuestionDirectionAlignments, QuestionType, QuizeTypes } from './types';
 
 export class ChangeQuestionDto {
   @IsNotEmpty()
@@ -29,6 +29,13 @@ export class ChangeQuestionDto {
     required: true,
   })
   readonly type: QuestionType;
+
+  @IsNotEmpty()
+  @ApiProperty({
+    type: String,
+    required: false,
+  })
+  readonly directionAlignment: QuestionDirectionAlignments;
 
   @IsNotEmpty()
   @ApiProperty({

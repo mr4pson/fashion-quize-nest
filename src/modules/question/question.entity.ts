@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { Block } from '../block/block.entity';
-import { QuestionType, QuizeTypes } from './types';
+import { QuestionDirectionAlignments, QuestionType, QuizeTypes } from './types';
 @Entity()
 export class Question {
   @PrimaryGeneratedColumn()
@@ -17,6 +17,9 @@ export class Question {
 
   @Column()
   type: QuestionType;
+
+  @Column()
+  directionAlignment: QuestionDirectionAlignments;
 
   @Column("text")
   options: string;
