@@ -34,7 +34,7 @@ export class QuestionService {
     const question = new Question();
     question.title = questionData.title;
     question.description = questionData.description;
-    question.image = questionData.image;
+    question.directionAlignment = questionData.directionAlignment;
     question.image = questionData.image ? questionData.image : '';
     question.type = questionData.type;
     question.options = questionData.options;
@@ -50,6 +50,7 @@ export class QuestionService {
 
     question.title = questionData.title;
     question.description = questionData.description;
+    question.directionAlignment = questionData.directionAlignment;
     question.image = questionData.image ? questionData.image : '';
     question.type = questionData.type;
     question.options = questionData.options;
