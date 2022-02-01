@@ -30,7 +30,6 @@ export class ChangeQuestionDto {
   })
   readonly type: QuestionType;
 
-  @IsNotEmpty()
   @ApiProperty({
     type: String,
     required: false,
