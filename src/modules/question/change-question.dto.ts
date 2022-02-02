@@ -10,7 +10,6 @@ export class ChangeQuestionDto {
   })
   readonly title: string;
 
-  @IsNotEmpty()
   @ApiProperty({
     type: String,
     required: true,
