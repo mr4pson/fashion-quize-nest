@@ -27,7 +27,7 @@ export class Task {
   @ManyToOne(type => TaskStatus, status => status)
   status: TaskStatus;
 
-  @Column()
+  @Column({ nullable: true })
   comment: string;
 
   @ManyToOne(type => User, user => user)
